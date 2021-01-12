@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423895204625",
+    "project_id": "i2-info-bot-9thl",
+    "storage_bucket": "i2-info-bot-9thl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423895204625:android:676f5c49911c57cb9242b0",
+        "android_client_info": {
+          "package_name": "com.nmsoft.infobot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423895204625-ng2lvee4d1le40p6p8g3b5qkceu8db0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsld_iqN_926JFRJPFpJ-x2a83_UMngDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423895204625-ng2lvee4d1le40p6p8g3b5qkceu8db0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
