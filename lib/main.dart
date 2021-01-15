@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'appColors.dart';
-import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:in_app_review/in_app_review.dart';
+
+import 'appColors.dart';
 
 final messageInsert = TextEditingController();
 List<Map> messsages = List();
@@ -252,51 +253,53 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                               messsages.insert(0,
                                   {"data": 1, "message": messageInsert.text});
 
-                              if(((messageInsert.text == "DEBUG_MODE") || messageInsert.text == "DEV_MODE")&&(pass == 3)) {
+                              if (((messageInsert.text == "DEBUG_MODE") ||
+                                      messageInsert.text == "DEV_MODE") &&
+                                  (pass == 3)) {
                                 if (debugInAPP == false) {
                                   messsages.insert(0, {
                                     "data": 0,
-                                    "message": "MODO DESENVOLVEDOR ATIVADO \n\n"
-                                        "-> DEBUG_MODE ou DEV_MODE:\n- Desativar o modo desenvolvedor.\n\n"
-                                        "-> I_C:\n-Inverter o modo de visualização do app.\n\n"
-                                        "NOTIFICAÇÕES:\n"
-                                        "-> ENVIAR_NOTIFICAÇÃO\n"
-                                        "-Enviar notificação personalizada.\n\n"
-                                        "-> N_GEOGRAFIA\n\n"
-                                        "-> N_QUIMICA\n\n"
-                                        "-> N_BIOLOGIA\n\n"
-                                        "-> N_FILOSOFIA\n\n"
-                                        "-> N_FISICA\n\n"
-                                        "-> N_HISTORIA\n\n"
-                                        "-> N_MATEMATICA\n\n"
-                                        "-> N_PROGRAMACAO",
+                                    "message": "Digite a senha:"
                                   });
-                                  invertDebugAPP();
-                                }else {
+                                  isMD5 = true;
+                                } else {
                                   messsages.insert(0, {
                                     "data": 0,
                                     "message": "MODO DESENVOLVEDOR DESATIVADO"
                                   });
                                   invertDebugAPP();
+                                  isMD5 = false;
                                 }
-                              }
-
-                              else if((messageInsert.text == "ENVIAR_NOTIFICAÇÃO")&&(debugInAPP == true)) {
-                                messsages.insert(0, {
-                                  "data": 0,
-                                  "message": "Digite a senha:"
-                                });
-                                isMD5 = true;
-                              }
-
-                              else if((isMD5 == true)&&(debugInAPP == true)) {
+                              } else if ((messageInsert.text ==
+                                      "ENVIAR_NOTIFICAÇÃO") &&
+                                  (debugInAPP == true)) {
+                                messsages.insert(0,
+                                    {"data": 0, "message": "Digite o título:"});
+                                isTitle = true;
+                              } else if ((isMD5 == true)) {
                                 senha = textToMd5(messageInsert.text);
-                                if (senha == '4e5a95862de7218e4a78651e955688f1') {
-                                  messsages.insert(0, {
-                                    "data": 0,
-                                    "message": "Digite o título:"
-                                  });
-                                  isTitle = true;
+                                if (senha ==
+                                    '4e5a95862de7218e4a78651e955688f1') {
+                                  if (debugInAPP == false) {
+                                    messsages.insert(0, {
+                                      "data": 0,
+                                      "message": "MODO DESENVOLVEDOR ATIVADO \n\n"
+                                          "-> DEBUG_MODE ou DEV_MODE:\n- Desativar o modo desenvolvedor.\n\n"
+                                          "-> I_C:\n-Inverter o modo de visualização do app.\n\n"
+                                          "NOTIFICAÇÕES:\n"
+                                          "-> ENVIAR_NOTIFICAÇÃO\n"
+                                          "-Enviar notificação personalizada.\n\n"
+                                          "-> N_GEOGRAFIA\n\n"
+                                          "-> N_QUIMICA\n\n"
+                                          "-> N_BIOLOGIA\n\n"
+                                          "-> N_FILOSOFIA\n\n"
+                                          "-> N_FISICA\n\n"
+                                          "-> N_HISTORIA\n\n"
+                                          "-> N_MATEMATICA\n\n"
+                                          "-> N_PROGRAMACAO",
+                                    });
+                                    invertDebugAPP();
+                                  }
                                 } else {
                                   isTitle = false;
                                   isBody = false;
@@ -306,24 +309,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                     "message": "Senha incorreta :("
                                   });
                                 }
-                              }
-
-                              else if((isTitle == true)&&(debugInAPP == true)) {
+                              } else if ((isTitle == true) &&
+                                  (debugInAPP == true)) {
                                 title = messageInsert.text;
-                                messsages.insert(0, {
-                                  "data": 0,
-                                  "message": "Digite o corpo:"
-                                });
+                                messsages.insert(0,
+                                    {"data": 0, "message": "Digite o corpo:"});
                                 isTitle = false;
                                 isBody = true;
-                              }
-
-                              else if((isBody == true)&&(debugInAPP == true)) {
+                              } else if ((isBody == true) &&
+                                  (debugInAPP == true)) {
                                 body = messageInsert.text;
                                 sendNotification(body, title);
                                 isTitle = false;
                                 isBody = false;
-                                isMD5 = false;
                               }
 
                               else if((messageInsert.text == "N_GEOGRAFIA")&&(debugInAPP == true)) {
