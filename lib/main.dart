@@ -23,6 +23,7 @@ dynamic body;
 int pass =0;
 dynamic senha;
 bool isMD5 = false;
+bool awl = false;
 
 void main() {
   runApp(MaterialApp(
@@ -276,7 +277,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                 messsages.insert(0,
                                     {"data": 0, "message": "Digite o título:"});
                                 isTitle = true;
-                              } else if ((isMD5 == true)) {
+                              } else if ((isMD5 == true)&& (awl == true)) {
                                 senha = textToMd5(messageInsert.text);
                                 if (senha ==
                                     '4e5a95862de7218e4a78651e955688f1') {
@@ -299,6 +300,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                           "-> N_PROGRAMACAO",
                                     });
                                     invertDebugAPP();
+                                    awl = false;
                                   }
                                 } else {
                                   isTitle = false;
@@ -308,6 +310,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                     "data": 0,
                                     "message": "Senha incorreta :("
                                   });
+                                  awl = true;
                                 }
                               } else if ((isTitle == true) &&
                                   (debugInAPP == true)) {
