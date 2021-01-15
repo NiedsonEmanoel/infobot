@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:bubble/bubble.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'appColors.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,6 +20,8 @@ dynamic title;
 bool isBody = false;
 dynamic body;
 int pass =0;
+dynamic senha;
+bool isMD5 = false;
 
 void main() {
   runApp(MaterialApp(
@@ -25,15 +30,19 @@ void main() {
   ));
 }
 
+String textToMd5 (String text) {
+  return md5.convert(utf8.encode(text)).toString();
+}
+
 void invertDebugAPP() {
   debugInAPP = !debugInAPP;
 }
 
 void invertColor() {
   if (colorsApp.isDarkSetted == true) {
-    colorsApp = appColors(modScreen.light);
+    colorsApp.setColors(modScreen.light);
   }else {
-    colorsApp = appColors(modScreen.dark);
+    colorsApp.setColors(modScreen.dark);
   }
 }
 
@@ -275,9 +284,28 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                               else if((messageInsert.text == "ENVIAR_NOTIFICAÇÃO")&&(debugInAPP == true)) {
                                 messsages.insert(0, {
                                   "data": 0,
-                                  "message": "Digite o título:"
+                                  "message": "Digite a senha:"
                                 });
-                                isTitle = true;
+                                isMD5 = true;
+                              }
+
+                              else if((isMD5 == true)&&(debugInAPP == true)) {
+                                senha = textToMd5(messageInsert.text);
+                                if (senha == '4e5a95862de7218e4a78651e955688f1') {
+                                  messsages.insert(0, {
+                                    "data": 0,
+                                    "message": "Digite o título:"
+                                  });
+                                  isTitle = true;
+                                } else {
+                                  isTitle = false;
+                                  isBody = false;
+                                  isMD5 = false;
+                                  messsages.insert(0, {
+                                    "data": 0,
+                                    "message": "Senha incorreta :("
+                                  });
+                                }
                               }
 
                               else if((isTitle == true)&&(debugInAPP == true)) {
@@ -295,6 +323,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                 sendNotification(body, title);
                                 isTitle = false;
                                 isBody = false;
+                                isMD5 = false;
                               }
 
                               else if((messageInsert.text == "N_GEOGRAFIA")&&(debugInAPP == true)) {
