@@ -263,6 +263,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                                     "message": "Digite a senha:"
                                   });
                                   isMD5 = true;
+                                  awl = true;
                                 } else {
                                   messsages.insert(0, {
                                     "data": 0,
